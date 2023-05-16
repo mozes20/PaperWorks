@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1045155721756",
+    "project_id": "paperworks-3cffa",
+    "storage_bucket": "paperworks-3cffa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1045155721756:android:5524f279a067f2d18c65d9",
+        "android_client_info": {
+          "package_name": "com.example.paperworks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1045155721756-bnu3ac20a8o6rhq806jgh5l3pd44dbuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK5S3U2eKeqy9B_beclRpbYc-NWstoqjI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1045155721756-bnu3ac20a8o6rhq806jgh5l3pd44dbuo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1045155721756-et8j6v8rq06a1o23e0h5b0eu60httlh4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.paperworks"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
