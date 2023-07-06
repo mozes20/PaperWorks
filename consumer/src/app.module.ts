@@ -2,7 +2,14 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { FirebaseModule } from './firebase/firebase.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { PgDataSource } from './pgdatasource';
+import { User } from './entity/User';
+import { UserModule } from './user/user.module';
+import { GaratiPaper } from './entity/Granati';
+import { Product } from './entity/Product';
+import { ElectricDeviceEntity } from './entity/ElectricDevices';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -21,7 +28,18 @@ import { FirebaseModule } from './firebase/firebase.module';
         },
       },
     ]),
-    FirebaseModule,
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'paperwork',
+      password: 'paperwork',
+      database: 'default_database',
+      entities: [User, GaratiPaper, Product, ElectricDeviceEntity],
+      synchronize: true,
+    }),
+    UserModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],

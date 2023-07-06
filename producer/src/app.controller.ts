@@ -17,7 +17,7 @@ import { ClientKafka } from '@nestjs/microservices';
 import { User } from './dto/User';
 import { responseDto } from './dto/respons.dto';
 import { async } from 'rxjs';
-const util = require('util');
+import util from 'util';
 
 @Controller()
 export class AppController implements OnModuleInit, OnModuleDestroy {
@@ -27,16 +27,12 @@ export class AppController implements OnModuleInit, OnModuleDestroy {
   ) {}
 
   async onModuleInit() {
-    ['firebase.user.add'].forEach((key) =>
+    ['user.add'].forEach((key) => this.client.subscribeToResponseOf(`${key}`));
+    ['user.get'].forEach((key) => this.client.subscribeToResponseOf(`${key}`));
+    ['user.get.id'].forEach((key) =>
       this.client.subscribeToResponseOf(`${key}`),
     );
-    ['firebase.user.get'].forEach((key) =>
-      this.client.subscribeToResponseOf(`${key}`),
-    );
-    ['firebase.user.get.id'].forEach((key) =>
-      this.client.subscribeToResponseOf(`${key}`),
-    );
-    ['firebase.user.update'].forEach((key) =>
+    ['user.update'].forEach((key) =>
       this.client.subscribeToResponseOf(`${key}`),
     );
     await this.client.connect();
@@ -48,7 +44,7 @@ export class AppController implements OnModuleInit, OnModuleDestroy {
 
   @Post('User')
   firebaseAddUser(@Body(ValidationPipe) body: User, @Res() res: Response) {
-    let microRes = this.client.send('firebase.user.add', JSON.stringify(body));
+    const microRes = this.client.send('user.add', JSON.stringify(body));
     microRes.subscribe((microData: responseDto) => {
       if (microData.error === '') {
         res.status(HttpStatus.CREATED).json(microData);
@@ -60,10 +56,7 @@ export class AppController implements OnModuleInit, OnModuleDestroy {
 
   @Put('User')
   firebaseUpdateUser(@Body() body: User, @Res() res: Response) {
-    let microRes = this.client.send(
-      'firebase.user.update',
-      JSON.stringify(body),
-    );
+    const microRes = this.client.send('user.update', JSON.stringify(body));
     microRes.subscribe((microData: responseDto) => {
       if (microData.error === '') {
         res.status(HttpStatus.CREATED).json(microData);
@@ -75,7 +68,7 @@ export class AppController implements OnModuleInit, OnModuleDestroy {
 
   @Get('User')
   firebaseGetUsers(@Body() body: User, @Res() res: Response) {
-    let microRes = this.client.send('firebase.user.get', JSON.stringify(body));
+    const microRes = this.client.send('user.get', JSON.stringify(body));
     microRes.subscribe((microData: responseDto) => {
       if (microData.error === '') {
         res.status(HttpStatus.OK).json(microData);
@@ -89,10 +82,7 @@ export class AppController implements OnModuleInit, OnModuleDestroy {
     @Body(ValidationPipe) body: string,
     @Res() res: Response,
   ) {
-    let microRes = this.client.send(
-      'firebase.user.get.id',
-      JSON.stringify(body),
-    );
+    const microRes = this.client.send('user.get.id', JSON.stringify(body));
     microRes.subscribe((microData: responseDto) => {
       if (microData.error === '') {
         res.status(HttpStatus.OK).json(microData);

@@ -1,5 +1,6 @@
 version: '2'
 services:
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -32,3 +33,21 @@ services:
       KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+  database:
+      # Official Postgres image from DockerHub (we use the last version)
+      image: 'postgres:latest'
+
+      # By default, a Postgres database is running on the 5432 port.
+      # If we want to access the database from our computer (outside the container),
+      # we must share the port with our computer's port.
+      # The syntax is [port we want on our machine]:[port we want to retrieve in the container]
+      # Note: You are free to change your computer's port,
+      # but take into consideration that it will change the way
+      # you are connecting to your database.
+      ports:
+        - 5432:5432
+
+      environment:
+        POSTGRES_USER: paperwork # The PostgreSQL user (useful to connect to the database)
+        POSTGRES_PASSWORD: paperwork # The PostgreSQL password (useful to connect to the database)
+        POSTGRES_DB: default_database # The PostgreSQL default database (automatically created at first launch)
